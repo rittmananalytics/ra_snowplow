@@ -34,9 +34,9 @@ An engineer deploying or managing the deployment will require the following tool
 
 ## Deployment
 
-### Step 0 - Fork this repo
+### Step 0 - Clone this repo template
 
-This repo is designed to be the template for each deployment as the kubernetes manifests will be pulled directly from the repo. As such, you should fork this repo and have a repo per-deployment.
+This repo is designed to be the template for each deployment as the kubernetes manifests will be pulled directly from the repo. As such, you should clone this repo by pressing the "Use this template" button to have a repo per-deployment.
 
 ### Step 1 - Setup GCP Project
 

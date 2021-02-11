@@ -1,0 +1,54 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: collector-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: collector
+  template:
+    metadata:
+      labels:
+        app: collector
+    spec:
+      containers:
+        - name: collector
+          image: snowplow/scala-stream-collector-pubsub:2.1.0
+          args: ["--config", "/snowplow/config/config.hocon"]
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "0.25"
+            requests:
+              memory: "256Mi"
+              cpu: "0.1"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            failureThreshold: 1
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            failureThreshold: 3
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 5
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: config
+              mountPath: /snowplow/config
+              readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            name: collector-config

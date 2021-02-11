@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: enricher-enrichments-config
+data:
+  ua-parser.json: |
+    {
+      "schema": "iglu:com.snowplowanalytics.snowplow/ua_parser_config/jsonschema/1-0-1",
+      "data": {
+        "vendor": "com.snowplowanalytics.snowplow",
+        "name": "ua_parser_config",
+        "enabled": true,
+        "parameters": {}
+      }
+    }

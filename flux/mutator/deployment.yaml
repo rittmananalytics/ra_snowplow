@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mutator-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mutator
+  template:
+    metadata:
+      labels:
+        app: mutator
+    spec:
+      containers:
+        - name: mutator
+          image: snowplow-docker-registry.bintray.io/snowplow/snowplow-bigquery-mutator:0.6.1
+          args: [
+            "listen",
+            "--config", "ewogICJzY2hlbWEiOiAiaWdsdTpjb20uc25vd3Bsb3dhbmFseXRpY3Muc25vd3Bsb3cuc3RvcmFnZS9iaWdxdWVyeV9jb25maWcvanNvbnNjaGVtYS8xLTAtMCIsCiAgImRhdGEiOiB7CiAgICAibmFtZSI6ICJCaWdRdWVyeSIsCiAgICAiaWQiOiAiMzFiMTU1OWQtZDMxOS00MDIzLWFhYWUtOTc2OTgyMzhkODA4IiwKICAgICJwcm9qZWN0SWQiOiAiYW8tZGV2LXJhLXNub3dwbG93IiwKICAgICJkYXRhc2V0SWQiOiAic25vd3Bsb3ciLAogICAgInRhYmxlSWQiOiAiZXZlbnRzIiwKICAgICJpbnB1dCI6ICJlbnJpY2hlci1sb2FkZXItc3ViIiwKICAgICJ0eXBlc1RvcGljIjogImxvYWRlci1icS10eXBlcyIsCiAgICAidHlwZXNTdWJzY3JpcHRpb24iOiAibG9hZGVyLWJxLXR5cGVzLXN1YiIsCiAgICAiYmFkUm93cyI6ICJsb2FkZXItYmFkLXJvd3MiLAogICAgImZhaWxlZEluc2VydHMiOiAibG9hZGVyLWJhZC1pbnNlcnRzIiwKICAgICJsb2FkIjogewogICAgICAibW9kZSI6ICJTVFJFQU1JTkdfSU5TRVJUUyIsCiAgICAgICJyZXRyeSI6IGZhbHNlCiAgICB9LAogICAgInB1cnBvc2UiOiAiRU5SSUNIRURfRVZFTlRTIgogIH0KfQ==",
+            "--resolver", "ewogICJzY2hlbWEiOiAiaWdsdTpjb20uc25vd3Bsb3dhbmFseXRpY3MuaWdsdS9yZXNvbHZlci1jb25maWcvanNvbnNjaGVtYS8xLTAtMSIsCiAgImRhdGEiOiB7CiAgICAiY2FjaGVTaXplIjogNTAwLAogICAgInJlcG9zaXRvcmllcyI6IFsKICAgICAgewogICAgICAgICJuYW1lIjogIklnbHUgQ2VudHJhbCIsCiAgICAgICAgInByaW9yaXR5IjogMCwKICAgICAgICAidmVuZG9yUHJlZml4ZXMiOiBbICJjb20uc25vd3Bsb3dhbmFseXRpY3MiIF0sCiAgICAgICAgImNvbm5lY3Rpb24iOiB7CiAgICAgICAgICAiaHR0cCI6IHsKICAgICAgICAgICAgInVyaSI6ICJodHRwOi8vaWdsdWNlbnRyYWwuY29tIgogICAgICAgICAgfQogICAgICAgIH0KICAgICAgfQogICAgXQogIH0KfQ=="
+          ]
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "0.25"
+            requests:
+              memory: "256Mi"
+              cpu: "0.1" 

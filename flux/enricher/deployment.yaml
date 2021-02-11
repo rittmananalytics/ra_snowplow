@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enricher-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: enricher
+  template:
+    metadata:
+      labels:
+        app: enricher
+    spec:
+      containers:
+        - name: enricher
+          image: snowplow/fs2-enrich:1.4.2
+          args: [
+            "--config", "/snowplow/config/config.hocon",
+            "--enrichments", "/snowplow/enrichments",
+            "--iglu-config", "/snowplow/config/resolver.json"
+          ]
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "0.25"
+            requests:
+              memory: "256Mi"
+              cpu: "0.1"
+          volumeMounts:
+            - name: config
+              mountPath: /snowplow/config
+              readOnly: true
+            - name: enrichments
+              mountPath: /snowplow/enrichments
+              readOnly: true              
+      volumes:
+        - name: config
+          configMap:
+            name: enricher-config
+        - name: enrichments
+          configMap:
+            name: enricher-enrichments-config

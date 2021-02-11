@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: enricher-config
+data:
+  config.hocon: |
+      // "Gcp" is the only valid option now
+      auth = {
+        type = "Gcp"
+      }
+
+      // Collector input
+      input = {
+        type = "PubSub"
+        subscription = "projects/ao-dev-ra-snowplow/subscriptions/collector-enricher-sub"
+      }
+
+      // Enriched events output
+      good = {
+        type = "PubSub"
+        topic = "projects/ao-dev-ra-snowplow/topics/enriched-good"
+      }
+
+      // Bad rows output
+      bad = {
+        type = "PubSub"
+        topic = "projects/ao-dev-ra-snowplow/topics/enriched-bad"
+      }
+
+      // Optional, period after which enrich assets should be checked for updates
+      // no assets will be updated if the key is absent
+      assetsUpdatePeriod = "7 days"
+
+      // Optional, period after Dropwizard will print out its metrics
+      // no metrics will be printed if the key is absent
+      metricsReportPeriod = "30 second"  
+  resolver.json: |
+    {
+      "schema": "iglu:com.snowplowanalytics.iglu/resolver-config/jsonschema/1-0-1",
+      "data": {
+        "cacheSize": 500,
+        "repositories": [
+          {
+            "name": "Iglu Central",
+            "priority": 0,
+            "vendorPrefixes": [ "com.snowplowanalytics" ],
+            "connection": {
+              "http": {
+                "uri": "http://iglucentral.com"
+              }
+            }
+          }
+        ]
+      }
+    }
+  

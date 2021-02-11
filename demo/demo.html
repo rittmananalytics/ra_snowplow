@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo</title>
+<!-- Snowplow starts plowing -->
+<script type="text/javascript">
+  ;(function(p,l,o,w,i,n,g){if(!p[i]){p.GlobalSnowplowNamespace=p.GlobalSnowplowNamespace||[];
+  p.GlobalSnowplowNamespace.push(i);p[i]=function(){(p[i].q=p[i].q||[]).push(arguments)
+  };p[i].q=p[i].q||[];n=l.createElement(o);g=l.getElementsByTagName(o)[0];n.async=1;
+  n.src=w;g.parentNode.insertBefore(n,g)}}(window,document,"script","http://localhost:5000/sp.js","snowplow"));
+  
+  snowplow('newTracker', 'sp', 'snowplow.ra.olivierdigital.com', {
+      appId: 'demo',
+      contexts: {
+          webPage: true
+      }
+  });
+  
+  snowplow('enableActivityTracking', 30, 10);
+  snowplow('trackPageView');
+  
+  </script>
+  <!-- Snowplow stops plowing -->
+</head>
+<body>
+  Testing the tracker
+</body>
+</html>
